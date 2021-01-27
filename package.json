@@ -43,6 +43,7 @@
     "prisma": "yarn run deploy && yarn run generate",
     "prebuild": "yarn run prisma1",
     "build": "babel src -d build",
-    "postbuild": "cd src && yarn copy src/api/**/*.graphql ./build/api"
+    "postbuild": "cd src && yarn copy src/api/**/*.graphql ./build/api",
+    "start": "node build/server.js"
   }
 }
