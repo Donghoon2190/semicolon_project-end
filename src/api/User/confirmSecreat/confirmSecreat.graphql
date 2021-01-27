@@ -1,4 +1,4 @@
 type Mutation{
-    confirmSecret(email:String!,loginSecreat:String):String!
+    confirmSecret(email:String!,secret:String):String!
 }
    

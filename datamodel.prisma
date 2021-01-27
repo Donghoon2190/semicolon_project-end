@@ -14,7 +14,7 @@ type User {
   loginSecreat : String
     createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
-  avatar : String
+  avatar : String @default(value: "https://banner2.cleanpng.com/20180429/sww/kisspng-semicolons-cupcakes-and-cucumbers-punctuation-em-5ae5b874b7c742.8798558015250044047528.jpg")
 }
 
 type Post {

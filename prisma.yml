@@ -1,0 +1,6 @@
+endpoint: ${env:PRISMA_ENDPOINT}
+datamodel: datamodel.prisma
+${env:PRISMA_ENDPOINT}
+generate:
+  - generator: javascript-client
+    output: ./generated/prisma-client/
