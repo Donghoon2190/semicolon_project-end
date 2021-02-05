@@ -10,24 +10,25 @@ const jwtOptions = {
 const verifyUser = async (payload, done) => {
     try {
         const user = await prisma.user({ id: payload.id })
-        if (user !== null) {
+         if (user != null) {
             return done(null, user)
-        } else {
-            return done(null, false);
-        }
+         } else {
+             return done(null, false);
+         }
     } catch (error) {
         return done(error, false);
     }
 };
 
+//passport는 세션과 쿠키에 사용하기 좋음. 
 export const authenticateJwt = (req, res, next) =>
-    passport.authenticate("jwt", { sessions: false }, (error, user) => {
+    passport.authenticate("jwt", { session: false }, (error, user) => {
         if (user) {
             req.user = user;
         }
-        next();//다음 함수를 실행하겠다
-    })(req, res, next); // 이 값들을 가지고
+        next();
+    })(req,res,next);
 
+passport.use(new Strategy(jwtOptions,verifyUser));
 
-passport.use(new Strategy(jwtOptions, verifyUser))
 passport.initialize();

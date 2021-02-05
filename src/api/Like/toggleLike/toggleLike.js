@@ -1,11 +1,10 @@
 import { prisma } from "../../../../generated/prisma-client";
-import { inAuthenticated } from "../../../middlewares"
+import { isAuthenticated } from "../../../middlewares"
 
 export default {
     Mutation: {
         toggleLike: async (_, args, { request }) => {
-            inAuthenticated(request); // 유저값을 받아왔는지 확인하는 구문. 없으면 함수에서 오류를 날림
-            console.log(args);
+            isAuthenticated(request);
             const { postId } = args;
             const { user } = request;
             const filterOption = {
@@ -21,16 +20,18 @@ export default {
                         }
                     }
                 ]
-            }
+
+            };
             try {
                 const existingLike = await prisma.$exists.like(filterOption);
                 if (existingLike) {
                     await prisma.deleteManyLikes(filterOption)
-                } else {
+                }
+                else {
                     await prisma.createLike({
                         user: {
                             connect: {
-                                id: user.id
+                                id: user.id,
                             }
                         },
                         post: {
@@ -41,8 +42,8 @@ export default {
                     });
                 }
                 return true;
-            } catch (error) {
-                console.log(error)
+            } catch (e) {
+                console.log(e);
                 return false;
             }
         }

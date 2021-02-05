@@ -1,6 +1,7 @@
 type User {
   id: ID!
-  avatar: String
+  password: String!
+  avatar: String!
   username: String!
   email: String!
   firstName: String
@@ -16,26 +17,52 @@ type User {
   posts: [Post!]!
   likes: [Like!]!
   comments: [Comment!]!
+  commentLikes: [Comment!]
   rooms: [Room!]!
-  loginSecret: String!
   createdAt: String
   updatedAt: String
-  postsCount : Int!
+  postsCount: Int!
+  savedPosts: [Post!]
+  state: String!
+  stories: [Story!]
+  clickedStories: [Story!]
+  tagedUser: [Story!]
+}
+
+type UserLogin {
+  id: ID!
+  email: String!
+  loginSecret: String
+}
+
+type Story {
+  id: ID!
+  files: [File!]!
+  caption: String
+  user: User!
+  tagUser: [User!]
+  seenUsers: [User!]
+  state: String!
+  createdAt: String!
+  updatedAt: String!
 }
 
 type Post {
   id: ID!
+  commentCount: Int!
   location: String
   caption: String!
   user: User!
   files: [File!]!
   likes: [Like!]!
   comments: [Comment!]!
-  commentCount : Int!
   isLiked: Boolean!
   likeCount: Int!
   createdAt: String
   updatedAt: String
+  state: String!
+  savedByUser: [User!]
+  hash: [String!]!
 }
 
 type Like {
@@ -46,6 +73,14 @@ type Like {
   updatedAt: String
 }
 
+type CommentLike {
+  id: ID!
+  user: User!
+  comment: Comment!
+  createdAt: String!
+  updatedAt: String!
+}
+
 type Comment {
   id: ID!
   text: String!
@@ -53,12 +88,15 @@ type Comment {
   post: Post!
   createdAt: String
   updatedAt: String
+  commentLikes: [User!]
+  isCommented: Boolean
 }
 
 type File {
   id: ID!
   url: String!
-  post: Post!
+  post: Post
+  story: Story
   createdAt: String
   updatedAt: String
 }

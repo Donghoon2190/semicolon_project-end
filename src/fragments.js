@@ -1,27 +1,3 @@
-// export const USER_FRAGMENT = `
-// fragment UserParts on User{
-// id
-// username
-// email
-// firstName
-// lastName
-// bio
-// posts{
-//     id
-//     caption
-// }
-// }`;
-// export const COMMENT_FRAGMENT = `
-// fragment UserParts on User{
-//       id
-//       text
-//       user{
-//         username
-//       }
-//     }`;
-
-
-//////////////////////
 export const USER_FRAGMENT = `
     id
     username
@@ -34,13 +10,24 @@ export const COMMENT_FRAGMENT = `
     id
     text
     user {
-          ${USER_FRAGMENT}
+        ${USER_FRAGMENT}
     }
 `;
 
 export const FILE_FRAGMENT = `
     id
     url
+`;
+
+export const MESSAGE_FRAGMENT = `
+    id
+    text
+    to {
+        ${USER_FRAGMENT}
+    }
+    from {
+        ${USER_FRAGMENT}
+    }
 `;
 
 export const FULL_POST_FRAGMENT = `
@@ -58,21 +45,11 @@ export const FULL_POST_FRAGMENT = `
             ${USER_FRAGMENT}
         }
         likes {
-          id
-          user{
-              ${USER_FRAGMENT}
-          } 
+            id
+            user {
+                ${USER_FRAGMENT}
+            }
         }
-    }
-`;
-export const MESSAGE_FRAGMENT = `
-    id
-    text
-    to {
-        ${USER_FRAGMENT}
-    }
-    from {
-        ${USER_FRAGMENT}
     }
 `;
 

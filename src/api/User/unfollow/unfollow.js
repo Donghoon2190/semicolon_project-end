@@ -1,27 +1,27 @@
 import { prisma } from "../../../../generated/prisma-client";
-import { inAuthenticated } from "../../../middlewares";
+import { isAuthenticated } from "../../../middlewares"
+
 export default {
     Mutation: {
-        unfollowing: async (_, args, { request }) => {
-            inAuthenticated(request);
+        unfollow: async (_, args, { request }) => {
+            isAuthenticated(request);
             const { id } = args;
             const { user } = request;
+
             try {
                 await prisma.updateUser({
-                    where: { id },
+                    where: { id:user.id },
                     data: {
-                        followers: {
-                            disconnect: {
-                                id: user.id
-                            }
+                        following: {
+                            disconnect:{id}
                         }
-                    }
+                    }                    
                 })
                 return true;
-            } catch {
+            } catch (e) {
+                console.log(e);
                 return false;
             }
-
         }
-    }
-};
+    }   
+}

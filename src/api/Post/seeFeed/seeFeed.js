@@ -1,9 +1,10 @@
 import { prisma } from "../../../../generated/prisma-client";
-import { inAuthenticated } from "../../../middlewares";
+import { isAuthenticated } from "../../../middlewares"
+
 export default {
     Query: {
         seeFeed: async (_, __, { request }) => {
-            inAuthenticated(request);
+            isAuthenticated(request);
             const { user } = request;
             const following = await prisma.user({ id: user.id }).following();
             return prisma.posts({
@@ -12,11 +13,8 @@ export default {
                         id_in: [...following.map(user => user.id), user.id]
                     }
                 },
-                orderBy: "createdAt_DESC"
+               orderBy:"createdAt_DESC"
             });
         }
     }
-};
-
-
-
+}; 

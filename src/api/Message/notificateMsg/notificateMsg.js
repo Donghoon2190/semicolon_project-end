@@ -1,20 +1,25 @@
 import { prisma } from "../../../../generated/prisma-client";
+import { isAuthenticated } from "../../../middlewares";
 
 export default {
     Subscription: {
         notificateMsg: {
             subscribe: (_, args) => {
+                //isAuthenticated(request);
                 const { roomId } = args;
                 return prisma.$subscribe.message({
                     AND: [
                         { mutation_in: "CREATED" },
-                        { node: { room: { id: roomId } } }
+                        {
+                            node: {
+                                room: { id: roomId }
+                            }
+                        }
                     ]
-                }).node()
+                }).node();
             },
-            //resolve 위에서 mutation_in에 따라 바뀐 값을 받아옴.
-            resolve: payload => payload
+            resolve: payload => payload 
         }
-
     }
-};
+}
+               
