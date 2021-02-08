@@ -3,25 +3,21 @@ import { isAuthenticated } from "../../../middlewares"
 
 export default {
     Query: {
-        getStories: async (_, __, { request }) => {
+        getStories: (_, args, { request }) => {
             isAuthenticated(request);
-            const { user } = request;
-            const following = await prisma.user({ id: user.id }).following();
+            const { id } = args;
+            console.log(id)
             return prisma.stories({
                 where: {
-                    AND:
-                        [{
-                            user: {
-                                id_in: [...following.map(user => user.id), user.id]
-                            }
-                        },
-                        {
-                            state:'1'    
+                    AND: [{
+                        user: {
+                            id
                         }
-                    ]
-                    
+                    }, {
+                        state: '1'
+                    }]
                 },
-               orderBy:"createdAt_DESC"
+                orderBy: "createdAt_DESC"
             });
         }
     }
